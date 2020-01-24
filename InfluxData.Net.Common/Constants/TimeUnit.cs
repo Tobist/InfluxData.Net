@@ -5,11 +5,9 @@ namespace InfluxData.Net.Common.Constants
     /// </summary>
     public static class TimeUnit
     {
-        // NOTE: currently not supported
-        //public const string Nanoseconds = "n";
+        public const string Nanoseconds = "ns";
 
-        // NOTE: currently not supported
-        //public const string Microseconds = "u";
+        public const string Microseconds = "us";
 
         public const string Milliseconds = "ms";
 

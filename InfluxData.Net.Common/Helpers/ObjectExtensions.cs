@@ -35,23 +35,36 @@ namespace InfluxData.Net.Common.Helpers
 
             switch (precision)
             {
+                case TimeUnit.Nanoseconds:
+                    // 1 Tick = 100 ns
+                    // 0.01 Tick = 1 ns
+                    return span.Ticks * 100;
+
+                case TimeUnit.Microseconds:
+                    // 10 Ticks = 1 Microsecond
+                    fractionalSpan = span.Ticks / 10;
+                    break;
+
                 case TimeUnit.Milliseconds:
                     fractionalSpan = span.TotalMilliseconds;
                     break;
+
                 case TimeUnit.Seconds:
                     fractionalSpan = span.TotalSeconds;
                     break;
+
                 case TimeUnit.Minutes:
                     fractionalSpan = span.TotalMinutes;
                     break;
+
                 case TimeUnit.Hours:
                     fractionalSpan = span.TotalHours;
                     break;
+
                 default:
                     fractionalSpan = span.TotalMilliseconds;
                     break;
             }
-
             return Convert.ToInt64(fractionalSpan);
         }
 
@@ -65,14 +78,24 @@ namespace InfluxData.Net.Common.Helpers
         {
             switch (precision)
             {
+                case TimeUnit.Nanoseconds:
+                    return _epoch.AddTicks(Convert.ToInt64(unixTime / 100));
+
+                case TimeUnit.Microseconds:
+                    return _epoch.AddTicks(unixTime * 10);
+
                 case TimeUnit.Milliseconds:
                     return _epoch.AddMilliseconds(unixTime);
+
                 case TimeUnit.Seconds:
                     return _epoch.AddSeconds(unixTime);
+
                 case TimeUnit.Minutes:
                     return _epoch.AddMinutes(unixTime);
+
                 case TimeUnit.Hours:
                     return _epoch.AddHours(unixTime);
+
                 default:
                     return _epoch.AddMilliseconds(unixTime);
             }
